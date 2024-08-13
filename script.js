@@ -67,3 +67,37 @@ function mergeSort(array) {
   }
   
 }
+
+function mergeSortRec(array) {
+  if (array.length <= 1) {
+    return array;
+  } else {
+    let left = array.slice(0,Math.round(array.length/2));
+    let right = array.slice(Math.round(array.length/2), (array.length));
+    let sortedLeft = mergeSortRec(left);
+    let sortedRight = mergeSortRec(right);
+    console.log(sortedLeft, sortedRight)
+    function merge(leftSide, rightSide){
+      let newArray = [];
+      if ((leftSide[0] && rightSide[0]) || (leftSide[0] === 0 && rightSide[0]) || (leftSide[0] && rightSide[0] === 0) || (leftSide[0] === 0 && rightSide[0]) === 0){
+        if (leftSide[0]<rightSide[0]){
+          newArray.push(leftSide.shift());
+          return newArray.concat(merge(leftSide,rightSide));
+        } else {
+          newArray.push(rightSide.shift());
+          return newArray.concat(merge(leftSide,rightSide));
+        }
+      } else if ((leftSide[0] && !rightSide[0]) || (leftSide[0] === 0 && !rightSide[0])) {
+        newArray.push(leftSide.shift());
+        return newArray.concat(merge(leftSide,rightSide));
+      } else if  ((!leftSide[0] && rightSide[0]) || (!leftSide[0] && rightSide[0] === 0)) {
+        newArray.push(rightSide.shift());
+        return newArray.concat(merge(leftSide,rightSide));
+      } else if (!leftSide[0] && !rightSide[0]) {
+        return []
+      }
+    }
+    return merge(sortedLeft, sortedRight);
+  }
+  
+}
